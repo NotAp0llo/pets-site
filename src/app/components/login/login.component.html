@@ -1,0 +1,60 @@
+<div class="main">
+  <mat-card class="login-card">
+    <div class="left">
+      <h3>Não tem conta ainda?</h3>
+      <p>Crie sua conta e participe da nossa comunidade de pets</p>
+      <button mat-flat-button color="primary" routerLink="/cadastro">Criar conta</button>
+    </div>
+    <div class="right" style="display: flex; flex-direction: column; align-items: center;">
+      <h2>Login</h2>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" style="display: flex; flex-direction: column;">
+        <mat-form-field class="example-full-width">
+          <mat-label>Email</mat-label>
+          <input
+            type="email"
+            matInput
+            formControlName="email"
+            placeholder="Ex. pat@example.com"
+          />
+          <mat-error *ngIf="loginForm.get('email')?.hasError('email') && !loginForm.get('email')?.hasError('required')">
+            Insira um e-mail válido
+          </mat-error>
+          <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+            Email é <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
+        
+        <mat-form-field class="example-full-width">
+          <mat-label>Digite sua senha</mat-label>
+          <input
+            matInput
+            [type]="hide ? 'password' : 'text'"
+            formControlName="senha"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="hide ? 'Mostrar senha' : 'Esconder senha'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+          </button>
+          <mat-error *ngIf="loginForm.get('senha')?.hasError('required')">
+            Senha é <strong>requerida</strong>
+          </mat-error>
+          <mat-error *ngIf="loginForm.get('senha')?.hasError('minlength')">
+            A senha precisa ter no mínimo 6 caracteres
+          </mat-error>
+        </mat-form-field>
+        
+        <div style="margin-top: 1rem;">
+          <button mat-button type="button">Esqueci a senha</button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid" style="margin-left: 1rem;">
+            Entrar
+          </button>
+        </div>
+      </form>
+    </div>
+  </mat-card>
+</div>

@@ -1,0 +1,148 @@
+<div class="main">
+  <mat-card class="mainCard">
+    <mat-card-content>
+      <h1>Cadastro do Pet</h1>
+      <form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()">
+        <div style="display: flex;">
+          <mat-form-field style="width: 45%" class="example-form-field">
+            <mat-label>Nome do Pet</mat-label>
+            <input matInput type="text" formControlName="nomePet" />
+            <button
+              *ngIf="cadastroForm.get('nomePet')?.value"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="cadastroForm.get('nomePet')?.setValue('')"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error
+              *ngIf="
+                cadastroForm.get('nomePet')?.invalid &&
+                cadastroForm.get('nomePet')?.touched
+              "
+            >
+              Nome do pet é obrigatório.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field style="width: 35%;margin-left: 10px;" class="example-form-field">
+            <mat-label>Idade</mat-label>
+            <input matInput type="text" formControlName="idade" />
+            <mat-error
+              *ngIf="
+                cadastroForm.get('idade')?.invalid &&
+                cadastroForm.get('idade')?.touched
+              "
+            >
+              Idade é obrigatória.
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <mat-form-field style="width: 35%" class="example-full-width">
+          <mat-label>Tipo de animal</mat-label>
+          <input
+            type="text"
+            placeholder="Escolha um animal"
+            aria-label="Animal"
+            matInput
+            formControlName="animal"
+            [matAutocomplete]="autoAnimal"
+          />
+          <mat-autocomplete autoActiveFirstOption #autoAnimal="matAutocomplete">
+            <mat-option
+              *ngFor="let option of filteredAnimals | async"
+              [value]="option"
+            >
+              {{ option }}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error
+            *ngIf="
+              cadastroForm.get('animal')?.invalid &&
+              cadastroForm.get('animal')?.touched
+            "
+          >
+            Obrigatório
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field
+          style="width: 35%"
+          class="example-full-width"
+          *ngIf="selectedAnimal"
+        >
+          <mat-label>Raça</mat-label>
+          <input
+            type="text"
+            placeholder="Escolha uma raça"
+            aria-label="Raça"
+            matInput
+            formControlName="raca"
+            [matAutocomplete]="autoRaca"
+          />
+          <mat-autocomplete autoActiveFirstOption #autoRaca="matAutocomplete">
+            <mat-option
+              *ngFor="let raca of filteredRacas | async"
+              [value]="raca"
+            >
+              {{ raca }}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error
+            *ngIf="
+              cadastroForm.get('raca')?.invalid &&
+              cadastroForm.get('raca')?.touched
+            "
+          >
+            Raça é obrigatória.
+          </mat-error>
+        </mat-form-field>
+
+        <label id="example-radio-group-label">Sexo do animal</label>
+        <mat-radio-group formControlName="sexo">
+          <mat-radio-button value="macho">Macho</mat-radio-button>
+          <mat-radio-button value="femea">Fêmea</mat-radio-button>
+        </mat-radio-group>
+        <mat-error
+          *ngIf="
+            cadastroForm.get('sexo')?.invalid &&
+            cadastroForm.get('sexo')?.touched
+          "
+        >
+          Sexo é obrigatório.
+        </mat-error>
+
+        <mat-form-field style="width: 35%" class="example-full-width">
+          <mat-label>Peso do animal</mat-label>
+          <input matInput placeholder="Ex. 20 kg" formControlName="peso" />
+          <mat-error
+            *ngIf="
+              cadastroForm.get('peso')?.invalid &&
+              cadastroForm.get('peso')?.touched
+            "
+          >
+            Peso é obrigatório.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>Condições pré-existentes</mat-label>
+          <textarea
+            matInput
+            placeholder="Ex. alergias, doenças crônicas, etc."
+            formControlName="condicoes"
+          ></textarea>
+        </mat-form-field>
+
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="cadastroForm.invalid"
+        >
+          Cadastrar
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
